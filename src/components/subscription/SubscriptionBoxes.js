@@ -84,7 +84,6 @@ const SubscriptionBoxesForMobiles = ({ handleSliderChange, employeeSliderValue, 
                     grabCursor={true}
                     centeredSlides={true}
                     slidesPerView={windowWidth < 750 ? 1 : 2}
-
                     coverflowEffect={{
                         rotate: 50,
                         stretch: 0,

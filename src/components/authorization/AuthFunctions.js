@@ -5,40 +5,45 @@ import app from '../../config/firebase';
 import 'firebase/auth';
 import { generateCookie } from "../utills/Cookies";
 
-const handleSignUpWithEmailAndPassword = async (validateEmail, validateName, validatePassword, formData, selectedAge, setFormData, navigate, selectedGender) => {
+const handleSignUpWithEmailAndPassword = async (validateEmail, validateName, validatePassword, formData, selectedAge, setFormData, navigate, selectedGender, isChecked) => {
     if (!validateName() || !validateEmail() || !validatePassword()) {
         return;
     }
-    let user;
-    const auth = getAuth();
-    await createUserWithEmailAndPassword(auth, formData.email, formData.password)
-        .then((userCredential) => {
-            user = userCredential.user;
-            console.log(userCredential)
-        })
-        .catch((error) => {
-            ToastMessage('error', error.message);
-            console.log(error.message)
-        });
+    if (isChecked) {
+        let user;
+        const auth = getAuth();
+        await createUserWithEmailAndPassword(auth, formData.email, formData.password)
+            .then((userCredential) => {
+                user = userCredential.user;
+                console.log(userCredential)
+            })
+            .catch((error) => {
+                ToastMessage('error', error.message);
+                console.log(error.message)
+            });
 
-    if (user) {
-        const response = await axios.post('http://localhost:5000/fireuid', {
-            uid: user.uid,
-            name: formData.name,
-            age: selectedAge,
-            email: formData.email,
-            gender: selectedGender
-        }, {
-            headers: {
-                'Content-Type': 'application/json',
-            }
-        });
+        if (user) {
+            const response = await axios.post('http://localhost:5000/fireuid', {
+                uid: user.uid,
+                name: formData.name,
+                age: selectedAge,
+                email: formData.email,
+                gender: selectedGender
+            }, {
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            });
 
-        const formattedToken = `Bearer ${response.data.token}`;
-        generateCookie('token', formattedToken, 30)
-        ToastMessage('success', 'Signup successful');
-        setFormData({ email: '', password: '', name: '' });
-        navigate('/chat', { replace: true });
+            const formattedToken = `Bearer ${response.data.token}`;
+            generateCookie('token', formattedToken, 30)
+            ToastMessage('success', 'Signup successful');
+            setFormData({ email: '', password: '', name: '' });
+            navigate('/chat', { replace: true });
+        }
+    }
+    else {
+        ToastMessage('error', 'Please check the terms .');
     }
 };
 
@@ -63,7 +68,6 @@ const handleSignInWithEmailAndPassword = async (validateEmail, validatePassword,
         ToastMessage('error', error.message);
     }
 };
-
 
 const handleSignInWithGoogle = async (navigate) => {
     const provider = new app.auth.GoogleAuthProvider();

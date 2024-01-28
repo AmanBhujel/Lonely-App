@@ -87,31 +87,45 @@ const Goals = () => {
                     </div>
                     <div className='w-[90%] h-[80%] overflow-y-auto border'>
                         <ul className='w-full h-full'>
-                            {goalsArray.map((goal, index) => (
-                                (goalsType === "all" || (goalsType === "achieved" && goal.completed) || (goalsType === "ongoing" && !goal.completed)) &&
-                                <li key={index} className='w-full h-20 border-red-200 border flex items-center justify-between cursor-pointer'
-                                    onClick={() => handleItemClick(index)}
-                                    ref={(element) => (removeButtonRefs.current[index] = element)}
-                                >
-                                    <p className='text-xl ml-5 overflow-hidden whitespace-nowrap overflow-ellipsis max-w-[300px] lg:max-w-[400px]'>
-                                        {index + 1}. {goal.title}
-                                    </p>
-                                    <div className='flex items-center justify-center'>
-                                        {
-                                            goal.completed ?
-                                                <p className='font-semibod  flex items-center justify-center'><i className='text-green-500 mr-3 text-2xl'><TbClockStar /></i>Completed!</p>
-                                                : <p className='font-semibod  flex items-center justify-center'><i className='text-red-500 mr-3 text-2xl'><TbClockPlay /></i>Ongoing!</p>
-                                        }
-                                        <button
-                                            className='bg-tertiary text-white py-1 px-3 text-lg ml-5 rounded-[6px] mr-5 z-50'
-                                            onClick={() => removeGoal(goal._id)}
+                            {goalsArray.length > 0 ? (
+                                goalsArray.map((goal, index) => (
+                                    (goalsType === "all" || (goalsType === "achieved" && goal.completed) || (goalsType === "ongoing" && !goal.completed)) && (
+                                        <li
+                                            key={index}
+                                            className='w-full h-20 border-red-200 border flex items-center justify-between cursor-pointer'
+                                            onClick={() => handleItemClick(index)}
+                                            ref={(element) => (removeButtonRefs.current[index] = element)}
                                         >
-                                            Remove
-                                        </button>
-                                    </div>
-                                </li>
-                            ))}
+                                            <p className='text-xl ml-5 overflow-hidden whitespace-nowrap overflow-ellipsis max-w-[300px] lg:max-w-[400px]'>
+                                                {index + 1}. {goal.title}
+                                            </p>
+                                            <div className='flex items-center justify-center'>
+                                                {goal.completed ? (
+                                                    <p className='font-semibold flex items-center justify-center'>
+                                                        <i className='text-green-500 mr-3 text-2xl'><TbClockStar/></i>Completed!
+                                                    </p>
+                                                ) : (
+                                                    <p className='font-semibold flex items-center justify-center'>
+                                                        <i className='text-red-500 mr-3 text-2xl'><TbClockPlay/></i>Ongoing!
+                                                    </p>
+                                                )}
+                                                <button
+                                                    className='bg-tertiary text-white py-1 px-3 text-lg ml-5 rounded-[6px] mr-5 z-50'
+                                                    onClick={() => removeGoal(goal._id)}
+                                                >
+                                                    Remove
+                                                </button>
+                                            </div>
+                                        </li>
+                                    )
+                                ))
+                            ) : (
+                                <div className='w-full h-full flex items-center justify-center'>
+                                    <p className='text-2xl font-semibold'>No goals set yet.</p>
+                                </div>
+                            )}
                         </ul>
+
                     </div>
                 </div>
             </div>

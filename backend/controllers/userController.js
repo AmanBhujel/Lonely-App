@@ -1,6 +1,12 @@
 const generateToken = require("../config/generateToken");
 const User = require("../models/userModel");
 const jwt = require('jsonwebtoken');
+const nodemailer = require('nodemailer');
+const dotenv =require('dotenv')
+dotenv.config();
+
+const MAIL_USER = process.env.MAIL_USER;
+const MAIL_PASS = process.env.MAIL_PASS;
 
 const registerUser = async (req, res) => {
     try {
@@ -23,6 +29,19 @@ const registerUser = async (req, res) => {
                 message: "Signed up successfully",
                 token: generateToken(user._id)
             })
+            const transporter = nodemailer.createTransport({
+                service: 'gmail',
+                auth: {
+                    user: MAIL_USER,
+                    pass: MAIL_PASS
+                }
+            });
+            await transporter.sendMail({
+                to: user.email,
+                from: "CheersAI>",
+                subject: "Welcome to CheersAI!",
+                text: `Hey ${name}, Thanks for signing up in CheersAI. Start talking to AI-model especially trained for theraapy conversations .`,
+            });
         } else {
             return res.status(200).json({ message: "Failed to create the user" });
         }
@@ -108,7 +127,7 @@ const updateUserData = async (req, res) => {
         const updatedUser = await User.findByIdAndUpdate(
             _id,
             updateObject,
-            { new: true } 
+            { new: true }
         );
 
         res.status(200).send({

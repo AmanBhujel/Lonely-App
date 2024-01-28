@@ -1,12 +1,13 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense, lazy } from 'react';
 import Logo from '../assets/logo.png';
 import { useNavigate } from 'react-router-dom';
 import app from '../config/firebase'
 import Google from '../assets/GoogleButton.svg';
-import {AgeSelector,GenderSelector} from '../components/authorization/Selectors';
+import { AgeSelector, GenderSelector } from '../components/authorization/Selectors';
 import { handleSignInWithEmailAndPassword, handleSignInWithGoogle, handleSignUpWithEmailAndPassword } from '../components/authorization/AuthFunctions';
 import { checkToken } from '../components/utills/checkToken';
-
+import { useTermModalContext } from "../contexts/TermModelContext";
+import Loading from '../components/utills/Loading';
 
 const Authorization = () => {
     const [isSignUp, setIsSignUp] = useState(false);
@@ -21,11 +22,21 @@ const Authorization = () => {
     const [passwordError, setPasswordError] = useState('');
     const [nameError, setNameError] = useState('');
     const [showPassword, setShowPassword] = useState(false);
+    const [isChecked, setChecked] = useState(false);
+    const { isTermModalOpen, setTermModalOpen } = useTermModalContext();
+    const TermsModal = lazy(() => import("../components/terms/TermsModal"));
+
+
     const navigate = useNavigate();
 
     const handleTogglePassword = () => {
         setShowPassword(!showPassword);
     };
+
+    const handleCheckboxChange = () => {
+        setChecked(!isChecked);
+    };
+
 
     // ---------To check if sign up is open or not -------------
     const toggleSignUp = () => {
@@ -96,6 +107,7 @@ const Authorization = () => {
         }
     };
 
+    console.log(isTermModalOpen)
     useEffect(() => {
         checkingTokenCookie();
     }, [])
@@ -105,8 +117,13 @@ const Authorization = () => {
             style={{
                 background: 'linear-gradient(to bottom right, #050816, #1d1836)',
             }}>
-            <section className="flex flex-col items-center w-full sm:w-11/12  lg:w-1/2 h-38rem mt-16">
 
+            <section className="flex flex-col items-center w-full sm:w-11/12  lg:w-1/2 h-38rem mt-16">
+                {isTermModalOpen && (
+                    <Suspense fallback={<Loading />}>
+                        <TermsModal />
+                    </Suspense>
+                )}
                 <img src={Logo} className="w-16 h-16" alt="Logo" />
                 {isSignUp ?
                     <>
@@ -175,10 +192,24 @@ const Authorization = () => {
                     {passwordError && <p className="text-red-500 text-sm mt-1">{passwordError}</p>}
                 </div>
                 {isSignUp ?
-                    <div className='w-10/12 sm:w-7/12 flex mb-4'>
-                        <AgeSelector selected={selectedAge} setSelectedAge={setSelectedAge} />
-                        <GenderSelector selectedGender={selectedGender} setSelectedGender={setSelectedGender}/>
-                    </div> : ''}
+                    <>
+                        <div className='w-10/12 sm:w-7/12 flex mb-4'>
+                            <AgeSelector selected={selectedAge} setSelectedAge={setSelectedAge} />
+                            <GenderSelector selectedGender={selectedGender} setSelectedGender={setSelectedGender} />
+
+                        </div>
+                        <div className='w-10/12 sm:w-7/12 flex mt-4 mb-4 items-center'>
+                            <input
+                                type="checkbox"
+                                checked={isChecked}
+                                onChange={handleCheckboxChange}
+                                className='outline-none'
+                            />
+                            <label className='ml-4 cursor-pointer' onClick={() => setTermModalOpen(true)}>
+                                I agree to the Terms and Conditions
+                            </label>
+                        </div>
+                    </> : ''}
                 {!isSignUp ? (
                     <>
                         <button
@@ -209,7 +240,7 @@ const Authorization = () => {
                 ) : (
                     <>
                         <button
-                            onClick={() => handleSignUpWithEmailAndPassword(validateEmail, validateName, validatePassword, formData, selectedAge, setFormData, navigate,selectedGender)}
+                            onClick={() => handleSignUpWithEmailAndPassword(validateEmail, validateName, validatePassword, formData, selectedAge, setFormData, navigate, selectedGender,isChecked)}
                             className="flex items-center justify-center px-5 py-2 bg-tertiary w-10/12 sm:w-7/12 h-10 text-xl hover:bg-tertiaryHover  rounded-xl mt-5"
                         >
                             Sign up
