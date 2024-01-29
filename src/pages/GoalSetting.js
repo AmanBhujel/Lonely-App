@@ -37,7 +37,7 @@ const Goals = () => {
     const removeGoal = async (goalId) => {
         try {
             const token = getCookie("token");
-            const response = await axios.post('http://localhost:5000/delete-goal', { _id: goalId }, {
+            const response = await axios.post('http://localhost:5000/delete-goal', { _id: goalId  }, {
                 headers: { authorization: token }
             });
 

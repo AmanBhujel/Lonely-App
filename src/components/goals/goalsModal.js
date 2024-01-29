@@ -10,7 +10,9 @@ const GoalModal = ({ isGoalModalOpen, setIsGoalModalOpen, setGoalsArray }) => {
     const [goalTitle, setGoalTitle] = useState('');
     const [goalDescription, setGoalDescription] = useState('');
     const [goalDate, setGoalDate] = useState('');
-
+    const [measurable, setMeasurable] = useState('');
+    const [achievable, setAchievable] = useState('');
+    const [relevant, setRelevant] = useState('');
 
     const handleSubmit = async () => {
         try {
@@ -26,21 +28,17 @@ const GoalModal = ({ isGoalModalOpen, setIsGoalModalOpen, setGoalsArray }) => {
             const year = new Date().getFullYear();
             const timestamp = new Date(`${year}-${month}-${day}`).getTime();
 
+
             if (isNaN(timestamp)) {
                 ToastMessages("error", "Invalid date! Format:MM-DD");
                 return;
             }
 
-            const response = await axios.post('http://localhost:5000/add-goal', {
-                title: goalTitle,
-                description: goalDescription,
-                day: timestamp,
-                completed: false
-            }, {
-                headers: {
-                    authorization: token
-                }
-            });
+            const currentTimestamp = new Date().getTime();
+            if (timestamp < currentTimestamp) {
+                ToastMessages("error", "Cannot add a goal with a past date.");
+                return;
+            }
 
             const calendarEvent = {
                 title: goalTitle,
@@ -49,12 +47,22 @@ const GoalModal = ({ isGoalModalOpen, setIsGoalModalOpen, setGoalsArray }) => {
                 label: 'red',
                 id: Date.now(),
             };
-
-            await axios.post("http://localhost:5000/add-schedule", calendarEvent, {
+            const response = await axios.post('http://localhost:5000/add-goal', {
+                title: goalTitle,
+                description: goalDescription,
+                day: timestamp,
+                scheduleId: calendarEvent.id,
+                completed: false
+            }, {
+                headers: {
+                    authorization: token
+                }
+            }); await axios.post("http://localhost:5000/add-schedule", calendarEvent, {
                 headers: {
                     authorization: token
                 }
             });
+
             console.log(response.data.goal, "res.data")
             const goal = response.data.goal;
             setGoalsArray((prevElems) => [...prevElems, goal]);
@@ -88,7 +96,7 @@ const GoalModal = ({ isGoalModalOpen, setIsGoalModalOpen, setGoalsArray }) => {
                                     backgroundPosition: 'center',
                                 }}
                             >
-                                Goal
+                                Smart Goal
                             </ModalHeader>
                             <ModalBody
                                 className="space-y-4 max-h-[750px] overflow-y-auto text-justify"
@@ -124,6 +132,38 @@ const GoalModal = ({ isGoalModalOpen, setIsGoalModalOpen, setGoalsArray }) => {
                                         value={goalDescription}
                                         onChange={(e) => setGoalDescription(e.target.value)}
                                     />
+                                </div>
+                                <div className='mb-4 flex flex-col'>
+                                    <label className="block text-gray-700 font-bold mb-2" htmlFor="name">
+                                        Goal Type
+                                    </label>
+                                    <div className='flex items-center gap-x-6'>
+                                        <div className='flex items-center gap-x-1'> <input
+                                            type="checkbox"
+                                            id="measurableOption1"
+                                            checked={measurable === 'Option 1'}
+                                            onChange={() => setMeasurable('Option 1')}
+                                        />
+                                            <label htmlFor="measurableOption1">Measurable</label></div>
+                                        <div className='flex items-center gap-x-1'>
+                                            <input
+                                                type="checkbox"
+                                                id="measurableOption2"
+                                                checked={measurable === 'Option 2'}
+                                                onChange={() => setMeasurable('Option 2')}
+                                            />
+                                            <label htmlFor="measurableOption2">Achievable</label>
+                                        </div>
+                                        <div className='flex items-center gap-x-1'>
+                                            <input
+                                                type="checkbox"
+                                                id="measurableOption3"
+                                                checked={measurable === 'Option 3'}
+                                                onChange={() => setMeasurable('Option 3')}
+                                            />
+                                            <label htmlFor="measurableOption3">Relevant</label>
+                                        </div>
+                                    </div>
                                 </div>
                                 <div className="mb-4">
                                     <label className="block text-gray-700 font-bold mb-2" htmlFor="name">

@@ -37,8 +37,8 @@ const ProfilePage = () => {
     }, [])
 
     return (
-        <div className='w-full h-full flex justify-center '>
-            <div className='w-[90%] lg:w-[700px] h-full'>
+        <div className='w-full  flex justify-center  overflow-auto'>
+            <div className='w-[90%] lg:w-[700px] '>
                 <p className='text-5xl font-bold mt-10 tracking-tighter'>Account Settings</p>
                 <p className='text-3xl font-semibold mt-12 tracking-tight	'>Basic Info</p>
                 <div className='flex border-b h-24 border-black items-center'>

@@ -36,9 +36,6 @@ const Sidebar = ({ mobileWidth }) => {
         else if (itemName === "Subscription") {
             navigate('/subscription');
         }
-        else if (itemName === "Terms") {
-            setTermModalOpen(true);
-        }
     };
 
     //To check the route and setActiveItem correctly
@@ -112,7 +109,7 @@ const Sidebar = ({ mobileWidth }) => {
             <div ref={sidebarRef} className={`h-full w-72 md:w-80 fixed top-0 left-0 z-50 ${isMobile ? 'md:fixed' : 'md:static'}`}>
                 <div className={`w-full  h-full bg-secondaryBg relative flex flex-col `}>
                     <p className='mb-4 mt-10 ml-6 text-lg font-extrabold text-white dark:text-white md:text-xl lg:text-2xl'>Cheers AI</p>
-                    <ul className="flex flex-col items-center w-full mt-5">
+                    <ul className="flex flex-col items-center w-full mt-5 overflow-auto mb-10 no-scrollbar">
                         <ListItem
                             icon={<UilEstate />}
                             name="Home"
@@ -155,12 +152,7 @@ const Sidebar = ({ mobileWidth }) => {
                             isActive={activeItem === "Subscription"}
                             onClick={() => handleItemClick("Subscription")}
                         />
-                        <ListItem
-                            icon={<UilFileInfoAlt />}
-                            name="Terms"
-                            isActive={activeItem === "Terms"}
-                            onClick={() => handleItemClick("Terms")}
-                        />                </ul>
+                    </ul>
                     <div className='bottom-0 absolute flex items-center justify-center w-full '>
                         <div
                             className={`w-11/12  cursor-pointer hover:bg-gray-800 hover:text-white   py-2 px-2 flex items-center mb-2 rounded-[10px]`}

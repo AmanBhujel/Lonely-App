@@ -2,6 +2,8 @@ import React, { useContext, useState } from "react";
 import GlobalContext from "../context/GlobalContext";
 import { getCookie } from "../../utills/Cookies";
 import axios from "axios";
+import ToastMessage from '../../utills/ToastMessage';
+
 
 const labelsClasses = [
   "indigo",
@@ -44,20 +46,24 @@ export default function EventModal() {
     if (selectedEvent) {
       dispatchCalEvent({ type: "update", payload: calendarEvent });
     } else {
+      const changedDateToStandardFormat = new Date(calendarEvent.day);
+
+      if (changedDateToStandardFormat <= new Date()) {
+        ToastMessage("error", "You cant add schedule event in past.")
+        setShowEventModal(false);
+        return;
+      }
+
       const token = getCookie("token");
       dispatchCalEvent({ type: "push", payload: calendarEvent });
       const response = await axios.post("http://localhost:5000/add-schedule", calendarEvent, {
         headers: {
-            authorization: token
+          authorization: token
         }
-    });
-    console.log(calendarEvent,"calendare evenet")
-
-    console.log(response)
+      });
+      console.log(response, 'response while adding ')
       //here localhost 5000 axios.post in body add title label description day id 
     }
-
-    setShowEventModal(false);
   }
   return (
     <div className="h-screen w-full fixed left-0 top-0 flex justify-center items-center">

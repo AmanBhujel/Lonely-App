@@ -1,9 +1,10 @@
 const Goal = require("../models/goalsModel");
+const ScheduleDay = require("../models/scheduleModel");
 
 const addGoal = async (req, res) => {
     try {
         const { _id } = req.user;
-        const { day, description, title, completed } = req.body;
+        const { day, description, title, completed,scheduleId } = req.body;
 
         const newGoal = new Goal({
             userId: _id,
@@ -11,6 +12,7 @@ const addGoal = async (req, res) => {
             description,
             title,
             completed,
+            scheduleId
         });
 
         await newGoal.save();
@@ -39,10 +41,11 @@ const getGoal = async (req, res) => {
 
 const deleteGoal = async (req, res) => {
     try {
-        const { _id } = req.body;
+        const { _id  } = req.body;
 
-        await Goal.findByIdAndDelete(_id);
-
+        const deletedGoal = await Goal.findByIdAndDelete(_id);
+        await ScheduleDay.findOneAndDelete({ id: deletedGoal.scheduleId, title: deletedGoal.title, description: deletedGoal.description });
+        
         res.status(200).json({ message: "Goal deleted successfully." });
     } catch (error) {
         console.error("Error deleting goal:", error);

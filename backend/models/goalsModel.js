@@ -17,6 +17,9 @@ const goalSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
+  scheduleId:{
+    type: String,
+  },
   userId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
