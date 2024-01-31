@@ -33,6 +33,7 @@ const addSchedule = async (req, res) => {
         // -----changing day to standard date for scheduling email----------
         const changedDateToStandardFormat = new Date(day);
         const dateObject = new Date(changedDateToStandardFormat);
+        dateObject.setDate(dateObject.getDate() - 1);
         const month = dateObject.getMonth() + 1;
         const date = dateObject.getDate();
 

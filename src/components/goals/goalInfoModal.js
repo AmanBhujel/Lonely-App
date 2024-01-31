@@ -17,10 +17,10 @@ const GoalInfoModal = ({ goal, setGoalsArray, goalInfoModal, setGoalInfoModal, g
                 day: '2-digit',
             });
         } else {
-            return ''; 
+            return '';
         }
     };
-    
+
 
     const handleStatusChange = (isComplete) => {
         updateGoalStatus(goalInfo._id, isComplete);
@@ -77,6 +77,10 @@ const GoalInfoModal = ({ goal, setGoalsArray, goalInfoModal, setGoalInfoModal, g
                             >
                                 <p><span className='font-bold mr-3'>Title:</span> {goalInfo.title}</p>
                                 <p><span className='font-bold mr-3'>Description:</span>{goalInfo.description}</p>
+                                <p><span className='font-bold mr-3'>Relevance:</span>{goalInfo.relevant}</p>
+                                <p><span className='font-bold mr-3'>Measureable:</span>{goalInfo.measureable}</p>
+                                <p><span className='font-bold mr-3'>Achievable:</span>{goalInfo.achieveable}</p>
+
                                 <p><span className='font-bold mr-3'>Target Date:</span>{changeDateToNormalStandard(goalInfo.day)}</p>
 
                                 <div className='flex'><span className='font-bold mr-3'>Status:</span>{goalInfo.completed ? <p className='flex'>Completed! <i className='text-green-500 mr-3 text-2xl ml-5'><TbClockStar /> </i></p> : <p className='flex'>Ongoing! <i className='text-red-500 mr-3 text-2xl ml-5'><TbClockPlay /></i></p>} </div>

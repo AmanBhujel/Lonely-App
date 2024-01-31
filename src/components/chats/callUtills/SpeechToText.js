@@ -6,13 +6,14 @@ import axios from "axios";
 import { getCookie } from "../../utills/Cookies";
 
 const SpeechToText = ({ onCall, emotionArray, setCallChatsObject, callChatsObject, talkingRef }) => {
-  if (onCall ) {
+  if (onCall) {
     annyang.addCallback('result', async function (phrases) {
-      console.log("phrase is here")
       const lowercasePhrase = phrases[0].toLowerCase();
       const emotionString = emotionArray.map(emotion => `${emotion.name} : ${emotion.score}`).join(', ');
 
+
       const lowercasePhraseWithEmotion = `${emotionString} ${lowercasePhrase}`;
+      console.log(lowercasePhraseWithEmotion)
 
       console.log(`User said: ${lowercasePhraseWithEmotion}`);
       const userMessage = { "fromUser": true, "content": lowercasePhraseWithEmotion }

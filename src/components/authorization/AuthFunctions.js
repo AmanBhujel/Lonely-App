@@ -1,4 +1,4 @@
-import { getAuth, createUserWithEmailAndPassword,sendEmailVerification } from "firebase/auth";
+import { getAuth, createUserWithEmailAndPassword, sendEmailVerification } from "firebase/auth";
 import ToastMessage from '../utills/ToastMessage';
 import axios from 'axios';
 import app from '../../config/firebase';
@@ -9,39 +9,38 @@ const handleSignUpWithEmailAndPassword = async (validateEmail, validateName, val
     if (!validateName() || !validateEmail() || !validatePassword()) {
         return;
     }
-        const auth = getAuth();
-        const userCredential = await createUserWithEmailAndPassword(auth, formData.email, formData.password)
-        const user = userCredential.user; 
+    const auth = getAuth();
+    const userCredential = await createUserWithEmailAndPassword(auth, formData.email, formData.password)
+    const user = userCredential.user;
     if (isChecked) {
         try {
-
-        await sendEmailVerification(user)
-        console.log(userCredential)
-        } 
+            ToastMessage('success', 'Please check your email.');
+            await sendEmailVerification(user)
+        }
         catch (error) {
-                ToastMessage('error', error.message);
-                console.log(error.message)
-            };
-        }
-        if (user) {
-            const response = await axios.post('http://localhost:5000/fireuid', {
-                uid: user.uid,
-                name: formData.name,
-                age: selectedAge,
-                email: formData.email,
-                gender: selectedGender
-            }, {
-                headers: {
-                    'Content-Type': 'application/json',
-                }
-            });
+            ToastMessage('error', error.message);
+            console.log(error.message)
+        };
+    }
+    if (user) {
+        const response = await axios.post('http://localhost:5000/fireuid', {
+            uid: user.uid,
+            name: formData.name,
+            age: selectedAge,
+            email: formData.email,
+            gender: selectedGender
+        }, {
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        });
 
-            const formattedToken = `Bearer ${response.data.token}`;
-            generateCookie('token', formattedToken, 30)
-            ToastMessage('success', 'Signup successful');
-            setFormData({ email: '', password: '', name: '' });
-            navigate('/chat', { replace: true });
-        }
+        // const formattedToken = `Bearer ${response.data.token}`;
+        // generateCookie('token', formattedToken, 30)
+        // ToastMessage('success', 'Signup successful');
+        setFormData({ email: '', password: '', name: '' });
+        // navigate('/chat', { replace: true });
+    }
     else {
         ToastMessage('error', 'Please check the terms .');
     }
@@ -55,8 +54,8 @@ const handleSignInWithEmailAndPassword = async (validateEmail, validatePassword,
         const response = await app.auth().signInWithEmailAndPassword(formData.email, formData.password);
         console.log(response);
         if (response.user) {
-            if(!response.user.emailVerified){
-                ToastMessage('error', 'Please verify your email');
+            if (!response.user.emailVerified) {
+                ToastMessage('error', 'Please verify your email!');
                 return;
             }
             ToastMessage('success', 'Sign in successful');

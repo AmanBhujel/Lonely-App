@@ -13,13 +13,29 @@ const GoalModal = ({ isGoalModalOpen, setIsGoalModalOpen, setGoalsArray }) => {
     const [measurable, setMeasurable] = useState('');
     const [achievable, setAchievable] = useState('');
     const [relevant, setRelevant] = useState('');
+    const [selectedDays, setSelectedDays] = useState('');
+    const [selectedOptions, setSelectedOptions] = useState([]);
 
+    const handleCheckboxChange = (option) => {
+      if (selectedOptions.includes(option)) {
+        // If the option is already selected, remove it
+        setSelectedOptions((prevOptions) => prevOptions.filter((o) => o !== option));
+      } else {
+        // If the option is not selected, add it
+        setSelectedOptions((prevOptions) => [...prevOptions, option]);
+      }
+    };
+  
+
+    const handleChange = (e) => {
+        setSelectedDays(e.target.value);
+    };
     const handleSubmit = async () => {
         try {
             const token = getCookie("token");
 
-            if (!goalTitle.trim() || !goalDescription.trim()) {
-                ToastMessages("error", "Title and description cannot be empty");
+            if (!goalTitle.trim() || !goalDescription.trim() || !measurable.trim() || !achievable.trim() || !relevant.trim()) {
+                ToastMessages("error", "Input Fields cannot be empty");
                 return;
             }
 
@@ -52,6 +68,9 @@ const GoalModal = ({ isGoalModalOpen, setIsGoalModalOpen, setGoalsArray }) => {
                 description: goalDescription,
                 day: timestamp,
                 scheduleId: calendarEvent.id,
+                measureable: measurable,
+                achieveable: achievable,
+                relevant: relevant,
                 completed: false
             }, {
                 headers: {
@@ -69,6 +88,9 @@ const GoalModal = ({ isGoalModalOpen, setIsGoalModalOpen, setGoalsArray }) => {
             setGoalDate('');
             setGoalDescription("");
             setGoalTitle("");
+            setMeasurable("");
+            setRelevant("");
+            setAchievable("");
             ToastMessages("success", "Goal Created Successfully.")
             setIsGoalModalOpen(false)
         } catch (error) {
@@ -99,7 +121,7 @@ const GoalModal = ({ isGoalModalOpen, setIsGoalModalOpen, setGoalsArray }) => {
                                 Smart Goal
                             </ModalHeader>
                             <ModalBody
-                                className="space-y-4 max-h-[750px] overflow-y-auto text-justify"
+                                className="space-y-2 max-h-[750px] overflow-y-auto text-justify"
                                 style={{
                                     background: 'linear-gradient(#dfd5f6,#f7f4fa, white )',
                                     backgroundSize: 'cover',
@@ -107,8 +129,8 @@ const GoalModal = ({ isGoalModalOpen, setIsGoalModalOpen, setGoalsArray }) => {
                                 }}
                             >
                                 {/* Label and Input for Name */}
-                                <div className="mb-2">
-                                    <label className="block text-gray-700 font-bold mb-2" htmlFor="name">
+                                <div >
+                                    <label className="block text-gray-700 font-bold mb-1" htmlFor="name">
                                         Goal Title
                                     </label>
                                     <input
@@ -120,8 +142,9 @@ const GoalModal = ({ isGoalModalOpen, setIsGoalModalOpen, setGoalsArray }) => {
                                         onChange={(e) => setGoalTitle(e.target.value)}
                                     />
                                 </div>
-                                <div className="mb-2">
-                                    <label className="block text-gray-700 font-bold mb-2" htmlFor="name">
+
+                                <div >
+                                    <label className="block text-gray-700 font-bold mb-1" htmlFor="name">
                                         Goal Description
                                     </label>
                                     <textarea
@@ -133,40 +156,118 @@ const GoalModal = ({ isGoalModalOpen, setIsGoalModalOpen, setGoalsArray }) => {
                                         onChange={(e) => setGoalDescription(e.target.value)}
                                     />
                                 </div>
-                                <div className='mb-4 flex flex-col'>
-                                    <label className="block text-gray-700 font-bold mb-2" htmlFor="name">
-                                        Goal Type
+                                <div>
+                                    <label className="block text-gray-700 font-bold mb-1" htmlFor="name">
+                                        Goal Measureable
                                     </label>
-                                    <div className='flex items-center gap-x-6'>
-                                        <div className='flex items-center gap-x-1'> <input
-                                            type="checkbox"
-                                            id="measurableOption1"
-                                            checked={measurable === 'Option 1'}
-                                            onChange={() => setMeasurable('Option 1')}
-                                        />
-                                            <label htmlFor="measurableOption1">Measurable</label></div>
-                                        <div className='flex items-center gap-x-1'>
-                                            <input
-                                                type="checkbox"
-                                                id="measurableOption2"
-                                                checked={measurable === 'Option 2'}
-                                                onChange={() => setMeasurable('Option 2')}
-                                            />
-                                            <label htmlFor="measurableOption2">Achievable</label>
-                                        </div>
-                                        <div className='flex items-center gap-x-1'>
-                                            <input
-                                                type="checkbox"
-                                                id="measurableOption3"
-                                                checked={measurable === 'Option 3'}
-                                                onChange={() => setMeasurable('Option 3')}
-                                            />
-                                            <label htmlFor="measurableOption3">Relevant</label>
-                                        </div>
-                                    </div>
+                                    <textarea
+                                        placeholder='Enter measureable...'
+                                        className="shadow appearance-none border rounded w-full py-3 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                        id="measureable"
+                                        type="text"
+                                        value={measurable}
+                                        onChange={(e) => setMeasurable(e.target.value)}
+                                    />
                                 </div>
-                                <div className="mb-4">
-                                    <label className="block text-gray-700 font-bold mb-2" htmlFor="name">
+                                <div className='flex flex-col'>
+                                    <label htmlFor="days">Select how many days a week:</label>
+                                    <select id="days" value={selectedDays} onChange={handleChange}>
+                                        <option value="1">1 </option>
+                                        <option value="2">2 </option>
+                                        <option value="3">3 </option>
+                                        <option value="4">4 </option>
+                                        <option value="5">5 </option>
+                                        <option value="6">6 </option>
+                                    </select>
+                                </div>
+                                <div className='flex flex-col'>
+                                    <label htmlFor="days">Select how many days a week:</label>
+                                    <select id="days" value={selectedDays} onChange={handleChange}>
+                                        <option value="1">1 </option>
+                                        <option value="2">2 </option>
+                                        <option value="3">3 </option>
+                                        <option value="4">4 </option>
+                                        <option value="5">5 </option>
+                                        <option value="6">6 </option>
+                                    </select>
+
+                                </div>
+                                <div>
+                                    <label>How many days a week will you join:</label>
+                                    <div>
+                                        <input
+                                            type="checkbox"
+                                            id="option1"
+                                            value="Option 1"
+                                            checked={selectedOptions.includes("Option 1")}
+                                            onChange={() => handleCheckboxChange("Option 1")}
+                                        />
+                                        <label htmlFor="option1">Option 1</label>
+                                    </div>
+                                    <div>
+                                        <input
+                                            type="checkbox"
+                                            id="option2"
+                                            value="Option 2"
+                                            checked={selectedOptions.includes("Option 2")}
+                                            onChange={() => handleCheckboxChange("Option 2")}
+                                        />
+                                        <label htmlFor="option2">Option 2</label>
+                                    </div>
+                                    <div>
+                                        <input
+                                            type="checkbox"
+                                            id="option3"
+                                            value="Option 3"
+                                            checked={selectedOptions.includes("Option 3")}
+                                            onChange={() => handleCheckboxChange("Option 3")}
+                                        />
+                                        <label htmlFor="option3">Option 3</label>
+                                    </div>
+                                    <div>
+                                        <input
+                                            type="checkbox"
+                                            id="option4"
+                                            value="Option 4"
+                                            checked={selectedOptions.includes("Option 4")}
+                                            onChange={() => handleCheckboxChange("Option 4")}
+                                        />
+                                        <label htmlFor="option4">Option 4</label>
+                                    </div>
+
+                                    {selectedOptions.length > 0 && (
+                                        <p>You selected: {selectedOptions.join(', ')}</p>
+                                    )}
+                                </div>
+                                {/*                                 
+                                <div >
+                                    <label className="block text-gray-700 font-bold mb-1" htmlFor="name">
+                                        Relevance
+                                    </label>
+                                    <textarea
+                                        placeholder='Explain how your goal is relevant...'
+                                        className="shadow appearance-none border rounded w-full py-3 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                        id="relevant"
+                                        type="text"
+                                        value={relevant}
+                                        onChange={(e) => setRelevant(e.target.value)}
+                                    />
+                                </div>
+                                <div >
+                                    <label className="block text-gray-700 font-bold mb-1" htmlFor="name">
+                                        Goal Achievable
+                                    </label>
+                                    <textarea
+                                        placeholder='Enter metrics like emotionally,numbers etc...'
+                                        className="shadow appearance-none border rounded w-full py-3 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                        id="achievable"
+                                        type="text"
+                                        value={achievable}
+                                        onChange={(e) => setAchievable(e.target.value)}
+                                    />
+                                </div> */}
+                                <div>
+                                    <label className="block text-gray-700 font-bold mb-1" htmlFor="name">
                                         Goal Date
                                     </label>
                                     <input

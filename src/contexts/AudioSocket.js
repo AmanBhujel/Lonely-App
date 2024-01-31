@@ -82,10 +82,27 @@ export function AudioSocket({ modelName, recordingLengthMs, streamWindowLengthMs
       return;
     }
 
-
     //update prediction and status
-
     setPredictions(newPredictions);
+
+    // ------Yo maile lekheko ________
+    const emotionsArray = response;
+
+    if (emotionsArray) {
+      // const topEmotions = emotionsArray
+      //   .sort((a, b) => b.score - a.score)
+      //   .slice(0, 3)
+      //   .map((emotion) => emotion.name);
+
+      const res = emotionsArray.prosody?.predictions
+
+      console.log("Top emotions:", emotionsArray.prosody?.predictions[0]);
+    } else {
+      console.log("Emotions data not available in the response.");
+    }
+
+
+
     if (onTimeline) {
       onTimeline(newPredictions);
     }

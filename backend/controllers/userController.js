@@ -40,7 +40,7 @@ const registerUser = async (req, res) => {
                 to: user.email,
                 from: "CheersAI>",
                 subject: "Welcome to CheersAI!",
-                text: `Hey ${name}, Thanks for signing up in CheersAI. Start talking to AI-model especially trained for theraapy conversations .`,
+                text: `Hey ${name}, Thanks for signing up in CheersAI. Start talking to AI-model especially trained for theraapy conversations . Verify your account and start using it.`,
             });
         } else {
             return res.status(200).json({ message: "Failed to create the user" });

@@ -45,7 +45,7 @@ const Chatbox = () => {
             sendMessage();
         }
     };
-
+    console.log(emotionArray,"emotionarray")
     useEffect(() => {
         // if(!talkingRef.current){
           const annyang = SpeechToText({ onCall, emotionArray, setCallChatsObject, callChatsObject, talkingRef })

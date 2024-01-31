@@ -4,7 +4,7 @@ const ScheduleDay = require("../models/scheduleModel");
 const addGoal = async (req, res) => {
     try {
         const { _id } = req.user;
-        const { day, description, title, completed,scheduleId } = req.body;
+        const { day, description, title, completed,scheduleId ,measureable,relevant, achieveable } = req.body;
 
         const newGoal = new Goal({
             userId: _id,
@@ -12,7 +12,10 @@ const addGoal = async (req, res) => {
             description,
             title,
             completed,
-            scheduleId
+            scheduleId,
+            measureable,
+            achieveable,
+            relevant
         });
 
         await newGoal.save();

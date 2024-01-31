@@ -9,6 +9,15 @@ const goalSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  measureable: {
+    type: String,
+  },
+  achieveable: {
+    type: String,
+  },
+  relevant: {
+    type: String,
+  },
   day: {
     type: Number,
     required: true,
