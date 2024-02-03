@@ -52,7 +52,6 @@ const handleSignInWithEmailAndPassword = async (validateEmail, validatePassword,
     }
     try {
         const response = await app.auth().signInWithEmailAndPassword(formData.email, formData.password);
-        console.log(response);
         if (response.user) {
             if (!response.user.emailVerified) {
                 ToastMessage('error', 'Please verify your email!');
@@ -76,7 +75,6 @@ const handleSignInWithGoogle = async (navigate) => {
     const provider = new app.auth.GoogleAuthProvider();
     try {
         const response = await app.auth().signInWithPopup(provider);
-        console.log(response)
         if (response.additionalUserInfo.isNewUser === false) {
             const responseFromAxios = await axios.post('http://localhost:5000/checkFireuid', {
                 uid: response.user.uid,
@@ -85,7 +83,6 @@ const handleSignInWithGoogle = async (navigate) => {
                     'Content-Type': 'application/json',
                 }
             });
-            console.log(responseFromAxios, "isold");
 
             const formattedToken = `Bearer ${responseFromAxios.data.token}`;
             generateCookie('token', formattedToken, 30)
@@ -103,7 +100,6 @@ const handleSignInWithGoogle = async (navigate) => {
                     'Content-Type': 'application/json',
                 }
             });
-            console.log(responseFromAxios, "is new")
 
             const formattedToken = `Bearer ${responseFromAxios.data.token}`;
             generateCookie('token', formattedToken, 30)

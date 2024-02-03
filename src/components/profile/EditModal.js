@@ -20,7 +20,6 @@ const EditModal = ({ isEditModalOpen, setIsEditModalOpen, name, email, age, gend
                     authorization: token
                 }
             })
-            console.log(response, 'from edit modal')
         } catch (error) {
             console.log('error', error)
         }

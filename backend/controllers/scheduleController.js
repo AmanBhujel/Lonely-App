@@ -39,7 +39,6 @@ const addSchedule = async (req, res) => {
 
         cron.schedule(`1 1 1 ${date} ${month} *`, async () => {
             try {
-                console.log('sending email from cron job')
                 await transporter.sendMail({
                     to: email,
                     subject: 'Schedule Reminder',

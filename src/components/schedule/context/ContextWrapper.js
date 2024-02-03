@@ -76,12 +76,8 @@ export default function ContextWrapper(props) {
 
   const fetchFilteredEvents = async () => {
     try {
-      // Wait for savedEvents to be resolved
-      console.log(savedEvents, "saved from fetch filtered");
 
       const resolvedEvents = await savedEvents;
-      console.log(resolvedEvents, "response from here");
-      console.log(labels, "labels from just");
 
       return resolvedEvents.filter((evt) =>
         labels
@@ -99,7 +95,6 @@ export default function ContextWrapper(props) {
 
 
   const filteredEvents = useMemo(async () => {
-    console.log("from memo", fetchFilteredEvents())
     return fetchFilteredEvents();
   }, [savedEvents, labels]);
 
@@ -119,7 +114,6 @@ export default function ContextWrapper(props) {
   };
 
   fetchFilteredEvents().then((res) => {
-    console.log(res, "from fetch promise")
   });
 
   useEffect(() => {
@@ -131,10 +125,8 @@ export default function ContextWrapper(props) {
       const resolvedEvents = await savedEvents;
 
       setLabels((prevLabels) => {
-        console.log(resolvedEvents, "from labels set");
         return [...new Set(resolvedEvents.map((evt) => evt.label))].map(
           (label) => {
-            console.log(label, "label from here set");
             const currentLabel = prevLabels.find(
               (lbl) => lbl.label === label
             );
@@ -148,7 +140,6 @@ export default function ContextWrapper(props) {
     };
 
     fetchData();
-    console.log(labels)
   }, [savedEvents]);
 
 

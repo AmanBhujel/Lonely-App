@@ -3,7 +3,6 @@ const {AudioMessage} = require("../models/chatModel");
 const storingAudioMessage = async (req, res) => {
     
     try {
-        console.log(req.user)
         const {content, fromUser } = req.body;
         const {_id} = req.user
 

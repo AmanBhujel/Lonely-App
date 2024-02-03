@@ -98,7 +98,6 @@ const Authorization = () => {
     const checkingTokenCookie = async () => {
         try {
             const tokenVerify = await checkToken();
-            console.log(tokenVerify, "token veri")
             if (tokenVerify) {
                 navigate('/chat', { replace: true });
             }
@@ -107,7 +106,6 @@ const Authorization = () => {
         }
     };
 
-    console.log(isTermModalOpen)
     useEffect(() => {
         checkingTokenCookie();
     }, [])

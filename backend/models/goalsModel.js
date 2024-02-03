@@ -9,14 +9,15 @@ const goalSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  measureable: {
+  scheduleDay: {
     type: String,
   },
-  achieveable: {
+  additionalMeasures: {
     type: String,
   },
-  relevant: {
-    type: String,
+  scheduleIdArray: {
+    type: [String],
+    default: [],
   },
   day: {
     type: Number,
@@ -26,7 +27,7 @@ const goalSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
-  scheduleId:{
+  scheduleId: {
     type: String,
   },
   userId: {

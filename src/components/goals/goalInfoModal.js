@@ -21,7 +21,6 @@ const GoalInfoModal = ({ goal, setGoalsArray, goalInfoModal, setGoalInfoModal, g
         }
     };
 
-
     const handleStatusChange = (isComplete) => {
         updateGoalStatus(goalInfo._id, isComplete);
     };
@@ -41,15 +40,12 @@ const GoalInfoModal = ({ goal, setGoalsArray, goalInfoModal, setGoalInfoModal, g
                     goal._id === _id ? { ...goal, completed } : goal
                 )
             );
-
             ToastMessage("success", "Updated Status.");
             setGoalInfoModal(false);
-            console.log(response);
         } catch (error) {
             console.error('Error updating goal status:', error);
         }
     };
-
 
     return (
         <>
@@ -77,9 +73,8 @@ const GoalInfoModal = ({ goal, setGoalsArray, goalInfoModal, setGoalInfoModal, g
                             >
                                 <p><span className='font-bold mr-3'>Title:</span> {goalInfo.title}</p>
                                 <p><span className='font-bold mr-3'>Description:</span>{goalInfo.description}</p>
-                                <p><span className='font-bold mr-3'>Relevance:</span>{goalInfo.relevant}</p>
-                                <p><span className='font-bold mr-3'>Measureable:</span>{goalInfo.measureable}</p>
-                                <p><span className='font-bold mr-3'>Achievable:</span>{goalInfo.achieveable}</p>
+                                <p><span className='font-bold mr-3'>Additional Measures:</span>{goalInfo.additionalMeasures}</p>
+                                <p><span className='font-bold mr-3'>Intervals:</span>{goalInfo.scheduleDay}</p>
 
                                 <p><span className='font-bold mr-3'>Target Date:</span>{changeDateToNormalStandard(goalInfo.day)}</p>
 

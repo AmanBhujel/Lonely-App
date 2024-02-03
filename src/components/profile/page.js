@@ -24,7 +24,6 @@ const ProfilePage = () => {
         const response = await axios.get('http://localhost:5000/get-user-data', {
             headers
         });
-        console.log(response.data.user, 'from profile')
         setName(response.data.user.name);
         setEmail(response.data.user.email);
         setGender(response.data.user.gender);

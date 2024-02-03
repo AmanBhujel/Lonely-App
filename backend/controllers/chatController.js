@@ -27,8 +27,6 @@ const getTextMessages = async (req, res) => {
 
         const chatMessages = await ChatMessage.find({ userId: _id });
 
-        console.log('Chat messages for userId:', chatMessages);
-
         res.status(200).json({ message: 'Successfully retrieved chat messages.', data: chatMessages });
     } catch (error) {
         console.error('Error getting chat messages:', error);

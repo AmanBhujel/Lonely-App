@@ -11,7 +11,6 @@ const protect = async (req, res, next) => {
         req.headers.authorization &&
         req.headers.authorization.startsWith('Bearer')
     ) {
-        // console.log(req.headers)
         try {
             token = req.headers.authorization.split(' ')[1];
 
@@ -19,7 +18,6 @@ const protect = async (req, res, next) => {
             const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
             req.user = await User.findById(decoded.id)
-            console.log(req.user,'from req.user')
 
             next();
         } catch (error) {

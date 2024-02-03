@@ -3,7 +3,6 @@ import { getCookie } from "./Cookies";
 
 const checkToken = async () => {
     const token = getCookie("token");
-    console.log(token, "token")
     const headers = {
         Authorization: token,
     };
@@ -19,7 +18,6 @@ const checkToken = async () => {
 const tokenFunction = async (setIsLoading,navigate) => {
     try {
         const tokenVerify = await checkToken();
-        console.log(tokenVerify);
         if (!tokenVerify) {
             navigate('/auth');
         }
