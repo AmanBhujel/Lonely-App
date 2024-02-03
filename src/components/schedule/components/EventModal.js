@@ -61,7 +61,6 @@ export default function EventModal() {
           authorization: token
         }
       });
-      console.log(response, 'response while adding ')
       //here localhost 5000 axios.post in body add title label description day id 
     }
   }

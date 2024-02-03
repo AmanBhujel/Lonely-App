@@ -19,7 +19,7 @@ async function OpenAIFunction(messages) {
       systemMessage,
       ...messages.map(messageObject => ({ "role": messageObject.fromUser ? 'user': 'assistant', "content": messageObject.content })),
     ];
-    console.log('message', messagesToSend)
+    // console.log('message', messagesToSend)
     const completion = await openai.chat.completions.create({
       model: "gpt-3.5-turbo",
       messages: messagesToSend,

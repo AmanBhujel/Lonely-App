@@ -75,6 +75,12 @@ export function AudioSocket({ modelName, recordingLengthMs, streamWindowLengthMs
     const newPredictions = response[modelName]?.predictions || [];
     const warning = response[modelName]?.warning || "";
     const error = response.error;
+
+    const allEmotions = newPredictions.flatMap(prediction => prediction.emotions || []);
+    const topEmotions = allEmotions.sort((a, b) => b.score - a.score).slice(0, 3);
+    if (allEmotions.length > 0) {
+      setEmotionArray(topEmotions)
+    }
     if (error) {
       setStatus(error);
       console.error(error);
@@ -85,21 +91,30 @@ export function AudioSocket({ modelName, recordingLengthMs, streamWindowLengthMs
     //update prediction and status
     setPredictions(newPredictions);
 
+    //emotion array
+
+    // const topEmotions = TopEmotions({ emotions, numEmotions: 3 });
+    // // const topEmotions = TopEmotions(newPredictions.map(prediction => prediction.emotions))
+    // // setEmotionArray(topEmotions);
+    // console.log(topEmotions)
+
     // ------Yo maile lekheko ________
-    const emotionsArray = response;
+    // const emotionsArray = response;
 
-    if (emotionsArray) {
-      // const topEmotions = emotionsArray
-      //   .sort((a, b) => b.score - a.score)
-      //   .slice(0, 3)
-      //   .map((emotion) => emotion.name);
+    // if (emotionsArray) {
+    //   // const topEmotions = emotionsArray
+    //   //   .sort((a, b) => b.score - a.score)
+    //   //   .slice(0, 3)
+    //   //   .map((emotion) => emotion.name);
 
-      const res = emotionsArray.prosody?.predictions
+    //   // const res = emotionsArray.prosody?.predictions
 
-      console.log("Top emotions:", emotionsArray.prosody?.predictions[0]);
-    } else {
-      console.log("Emotions data not available in the response.");
-    }
+    //   console.log("Top emotions:", emotionsArray.prosody?.predictions[0]);
+    // } else {
+    //   console.log("Emotions data not available in the response.");
+    // }
+
+
 
 
 

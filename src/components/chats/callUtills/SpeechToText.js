@@ -13,7 +13,7 @@ const SpeechToText = ({ onCall, emotionArray, setCallChatsObject, callChatsObjec
 
 
       const lowercasePhraseWithEmotion = `${emotionString} ${lowercasePhrase}`;
-      console.log(lowercasePhraseWithEmotion)
+      // console.log(lowercasePhraseWithEmotion)
 
       console.log(`User said: ${lowercasePhraseWithEmotion}`);
       const userMessage = { "fromUser": true, "content": lowercasePhraseWithEmotion }

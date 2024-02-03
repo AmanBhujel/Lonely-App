@@ -48,7 +48,7 @@ const Goals = () => {
                 ToastMessage("error", "Failed to delete goal");
             }
         } catch (error) {
-            console.error("Error deleting goal:", error);
+            // console.error("Error deleting goal:", error);
         }
     };
 

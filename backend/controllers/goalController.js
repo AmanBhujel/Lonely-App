@@ -72,7 +72,9 @@ const addGoal = async (req, res) => {
 
         const today = new Date();
         const endDate = new Date(day);
-        const count = await countDays(today, endDate);
+        if (scheduleDay === "Once a week") {
+            await countDays(today, endDate);
+        }
 
 
 
@@ -118,18 +120,19 @@ const deleteGoal = async (req, res) => {
         const { _id } = req.body;
 
         const deletedGoal = await Goal.findByIdAndDelete(_id);
-        await ScheduleDay.findOneAndDelete({ id: deletedGoal.scheduleId, title: deletedGoal.title, description: deletedGoal.description });
+        const scheduleId = deletedGoal.scheduleId;
+        console.log(deletedGoal, "deleted","id",scheduleId)
+        await ScheduleDay.findOneAndDelete({ id: scheduleId, title: deletedGoal.title, description: deletedGoal.description });
         await deletedGoal.scheduleIdArray.map(async (id) => {
             await ScheduleDay.findOneAndDelete({ id: id, title: deletedGoal.title, description: deletedGoal.description });
         })
 
         res.status(200).json({ message: "Goal deleted successfully." });
     } catch (error) {
-        console.error("Error deleting goal:", error);
-        res.status(500).json({ message: "Internal server error." });
+        // console.error("deleting goal:", error);
+        // res.status(500).json({ message: "Internal server error." });
     }
 };
-
 const updateGoal = async (req, res) => {
     try {
         const { _id, completed } = req.body;

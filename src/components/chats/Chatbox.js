@@ -47,12 +47,12 @@ const Chatbox = () => {
     };
     console.log(emotionArray,"emotionarray")
     useEffect(() => {
-        // if(!talkingRef.current){
+        if(!talkingRef.current){
           const annyang = SpeechToText({ onCall, emotionArray, setCallChatsObject, callChatsObject, talkingRef })
           return () => {
               annyang.removeCallback();
               annyang.abort();
-    //   }
+      }
     }
     }, [onCall, talkingRef.current]);
 
