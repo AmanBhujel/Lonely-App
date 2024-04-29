@@ -8,6 +8,16 @@ Welcome to Lonely App! Features of Lonely app:
 - Used Annyang for speech-to-text conversion.
 - Used Cronjob and Nodemailer to send emails for the scheduled therapy or goal.
 
+**Tech-stacks and packages used:**
+- React
+- Tailwind
+- Express
+-Nodemailer
+- Cronjob
+- Annyang(for speech to text)
+- Firebase(for google auth)
+- MongoDb 
+
 ### Installation
 Clone the repository to your local machine:
 ```bash    
