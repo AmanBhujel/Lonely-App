@@ -1,25 +1,40 @@
 # Lonely App - How to Use
-Welcome to Lonely App! Here's a quick guide on how to get started:
+Welcome to Lonely App! Features of Lonely app:
 
+- Integrated OpenAI API for chat functionality.
+- Stored chat history in the database for AI learning.
+- Implemented emotional analysis using Hume AI during calls.
+- Integrated OpenAI Voice API for voice interactions.
+- Used Annyang for speech-to-text conversion.
+- Used Cronjob and Nodemailer to send emails for the scheduled therapy or goal.
 
 ### Installation
 Clone the repository to your local machine:
-
-    
-        git clone <github-Repo-Link>
-        Change into the project directory:
-        cd lonely-forked
+```bash    
+git clone <github-Repo-Link>
+Change into the project directory:
+cd lonely-forked
+```
 
 ### Install dependencies using npm:
-
-          npm install
+```bash
+npm install
+```
 
 ### Setting up Environment Variables:
 
 Create a .env file in the root of the project and add the following environment variables:
 ```bash
- REACT_APP_HUME_AI_API=your_hume_ai_api_key
- REACT_APP_OPEN_AI_API_KEY=your_open_ai_api_key
+REACT_APP_HUME_AI_API=your_hume_ai_api_key
+REACT_APP_OPEN_AI_API_KEY=your_open_ai_api_key
+
+REACT_APP_FIREBASE_API_KEY=your_firebase_api_key
+REACT_APP_FIREBASE_AUTH_DOMAIN=firebase_auth_domain
+REACT_APP_FIREBASE_PROJECT_ID=firebase_project_id
+REACT_APP_FIREBASE_STORAGE_BUCKET=firebase_storage_bucket
+REACT_APP_FIREBASE_MESSAGING_SENDER_ID=firebase_sender_id
+REACT_APP_FIREBASE_APP_ID=firebase_app_id
+REACT_APP_FIREBASE_MEASUREMENT_ID=firebase_measurement_id
  ```
 
 ### Running the App
