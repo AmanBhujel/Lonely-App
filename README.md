@@ -8,6 +8,8 @@ Welcome to Lonely App! Features of Lonely app:
 - Used Annyang for speech-to-text conversion.
 - Used Cronjob and Nodemailer to send emails for the scheduled therapy or goal.
 
+  **PS: Annyang is not supported in mozilla firefox.**
+
 **Tech-stacks and packages used:**
 - React
 - Tailwind
@@ -75,3 +77,27 @@ Start frontend and backend separately. To run backend, go inside backend directo
 ```bash
 nodemon index
 ```
+
+## Project Preview:
+
+![signup](https://github.com/AmanBhujel/MVP/assets/132144406/e471252e-1f47-44b4-b34c-7dbc4f766e3e)
+
+
+![subscription](https://github.com/AmanBhujel/MVP/assets/132144406/38c5e757-214d-4082-8f54-8e007ff03296)
+
+
+![chat](https://github.com/AmanBhujel/MVP/assets/132144406/4e6cb4ce-a0fe-49a5-8827-54406662549e)
+
+
+![feedback](https://github.com/AmanBhujel/MVP/assets/132144406/de473281-aefc-42b7-925e-46b84cce6b16)
+
+
+![analytics](https://github.com/AmanBhujel/MVP/assets/132144406/1cf69924-0810-4743-abbe-bb949fcddfad)
+
+
+![schedule](https://github.com/AmanBhujel/MVP/assets/132144406/e657c7fe-e73a-4dfd-aa12-6c0ca47e52e9)
+
+
+
+
+
